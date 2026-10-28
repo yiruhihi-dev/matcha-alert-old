@@ -1,0 +1,46 @@
+name: matcha-check
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # 每 10 分鐘（GitHub 尖峰時可能延遲幾分鐘）
+  workflow_dispatch:
+    inputs:
+      test_line:
+        description: "只發一則 LINE 測試訊息"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: matcha-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check stock
+        env:
+          LINE_TOKEN: ${{ secrets.LINE_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          TEST_LINE: ${{ inputs.test_line && '1' || '0' }}
+        run: python monitor.py
+
+      - name: Save state
+        run: |
+          if [ -n "$(git status --porcelain state.json)" ]; then
+            git config user.name "matcha-bot"
+            git config user.email "matcha-bot@users.noreply.github.com"
+            git add state.json
+            git commit -m "update stock state"
+            git push
+          fi
