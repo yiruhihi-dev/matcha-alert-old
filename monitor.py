@@ -35,6 +35,10 @@ HEADERS = {
     "Sec-Fetch-User": "?1",
 }
 
+# 台灣寄送：小山園是全站統一設定（不分商品），2026-10-30 登入確認台灣在可寄送國家內、EMS ¥2,450。
+# 不自動登入檢查，避免把帳號密碼放進 GitHub。
+TAIWAN_NOTE = "✈️ 台灣寄送：可（EMS 約 ¥2,450，10/30 已確認）"
+
 OOS_WORDS = ("out-of-stock", "out of stock", "sold out", "sold-out", "unavailable")
 
 
@@ -143,6 +147,7 @@ def main():
                      f"📦 有貨：{', '.join(r['in'])}" + (f"（🆕 {', '.join(newly)}）" if newly else "")]
             if r["out"]:
                 lines.append(f"❌ 缺貨：{', '.join(r['out'])}")
+            lines.append(TAIWAN_NOTE)
             lines.append(f"👉 連結：{url}")
             blocks.append("\n".join(lines))
 
