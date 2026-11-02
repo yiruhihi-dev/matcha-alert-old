@@ -35,9 +35,9 @@ HEADERS = {
     "Sec-Fetch-User": "?1",
 }
 
-# 台灣寄送：小山園是全站統一設定（不分商品），2026-10-30 登入確認台灣在可寄送國家內、EMS ¥2,450。
-# 不自動登入檢查，避免把帳號密碼放進 GitHub。
-TAIWAN_NOTE = "✈️ 台灣寄送：可（EMS 約 ¥2,450，10/30 已確認）"
+# 台灣寄送：小山園會不定期把台灣從可寄送國家移除（10/30 有、11/2 補貨時被拿掉），
+# 只有登入才看得到；為了不把帳號密碼放進 GitHub，程式不檢查，只提醒。
+TAIWAN_NOTE = "⚠️ 台灣寄送：未確認，小山園會不定期關閉台灣寄送，請登入後在商品頁「Calculate Shipping」確認"
 
 OOS_WORDS = ("out-of-stock", "out of stock", "sold out", "sold-out", "unavailable")
 
